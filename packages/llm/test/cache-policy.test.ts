@@ -251,6 +251,33 @@ describe("applyCachePolicy", () => {
     }),
   )
 
+  it.effect("'rolling-turn' marks both latest user message and the trailing turn message in multi-turn tool loops", () =>
+    Effect.gen(function* () {
+      const prepared = yield* LLMClient.prepare(
+        LLM.request({
+          model: anthropicModel,
+          system: "System prompt",
+          tools: [{ name: "t1", description: "t1", inputSchema: { type: "object", properties: {} } }],
+          messages: [
+            Message.user("initial prompt"),
+            Message.assistant("let me check"),
+            Message.tool({ id: "call_1", name: "t1", result: { content: "file data" } }),
+          ],
+          cache: { messages: "rolling-turn" },
+        }),
+      )
+
+      const body = prepared.body as {
+        tools: Array<{ cache_control?: unknown }>
+        system: Array<{ cache_control?: unknown }>
+        messages: Array<{ role: string; content: Array<{ cache_control?: unknown }> }>
+      }
+      expect(body.messages[0]?.content[0]?.cache_control).toEqual({ type: "ephemeral" })
+      expect(body.messages[1]?.content[0]?.cache_control).toBeUndefined()
+      expect(body.messages[2]?.content[0]?.cache_control).toEqual({ type: "ephemeral" })
+    }),
+  )
+
   test("returns the same request reference when policy is a no-op (pure function)", () => {
     const request = LLM.request({
       model: anthropicModel,
