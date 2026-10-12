@@ -11,6 +11,7 @@ import { QuestionTool } from "./question"
 import { ReadTool } from "./read"
 import { SkillTool } from "./skill"
 import { TodoWriteTool } from "./todowrite"
+import { RollbackTool } from "./rollback"
 import { WebFetchTool } from "./webfetch"
 import { WebSearchTool } from "./websearch"
 import { WriteTool } from "./write"
@@ -39,6 +40,7 @@ export const node = makeLocationNode({
     GrepTool.node,
     QuestionTool.node,
     ReadTool.node,
+    RollbackTool.node,
     SkillTool.node,
     TodoWriteTool.node,
     WebFetchTool.node,

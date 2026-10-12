@@ -119,3 +119,24 @@ export const commit = Effect.fn("SessionRevert.commit")(function* (session: Sess
     timestamp: yield* DateTime.now,
   })
 })
+
+/**
+ * Trajectory Rollback: Immediately roll back the worktree and session state to a target
+ * assistant message boundary without staging an interactive UI confirmation. Restores files
+ * to their pre-mutation snapshot and commits the rollback boundary.
+ */
+export const rollbackToCheckpoint = Effect.fn("SessionRevert.rollbackToCheckpoint")(function* (input: {
+  readonly session: SessionSchema.Info
+  readonly boundaryMessageID: SessionMessage.ID
+}) {
+  const staged = yield* stage({
+    session: input.session,
+    messageID: input.boundaryMessageID,
+    files: true,
+  })
+  yield* commit({
+    ...input.session,
+    revert: staged,
+  })
+  return staged
+})
