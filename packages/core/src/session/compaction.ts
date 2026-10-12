@@ -21,6 +21,9 @@ const SUMMARY_TEMPLATE = `Output exactly the Markdown structure shown inside <te
 ## Important Details
 - [constraints/preferences, decisions and why, important facts/assumptions, exact context needed to continue, or "(none)"]
 
+## Syntactic Symbol Index & Call Graph
+- [File path: list all critical types, exported functions, interfaces, class signatures, and imported/called symbols touched or inspected, e.g. "path/to/file.ts: func foo(a: string) -> Effect<void>, interface Bar { id: string }, calls baz()", or "(none)"]
+
 ## Work State
 ### Completed
 - [finished work, verified facts, or changes made; otherwise "(none)"]
@@ -42,17 +45,20 @@ const SUMMARY_TEMPLATE = `Output exactly the Markdown structure shown inside <te
 Rules:
 - Keep every section, even when empty.
 - Use terse bullets, not prose paragraphs.
-- Preserve exact file paths, symbols, commands, error strings, URLs, and identifiers when known.
+- Preserve exact file paths, symbols, interfaces, function signatures, commands, error strings, URLs, and identifiers when known.
+- In ## Syntactic Symbol Index & Call Graph, rigorously preserve symbol definitions, method names, and cross-file references so the receiving agent retains code AST awareness without re-reading files.
 - Do not mention the summary process or that context was compacted.`
 const SUMMARY_UPDATE_INSTRUCTIONS = `The <prior-summary> summarizes everything that happened before the <conversation>. Construct a new summary that combines both. The <prior-summary> is discarded after this: anything you do not carry into the new summary is lost.
 
 When combining:
 - Carry forward objectives, constraints, user directives, decisions, and parallel workstreams from the <prior-summary> even when the <conversation> does not mention them. Drop only what is finished and no longer needed.
+- Carry forward and merge all symbol signatures and call graph links under ## Syntactic Symbol Index & Call Graph.
 - The <conversation> is more recent than the <prior-summary>. Where they conflict, the conversation wins: state the corrected fact and drop the old claim.
 - Add new progress, decisions, constraints, and context from the conversation.
 - Move completed work from "Active" to "Completed".
 - If a blocker has been resolved, update the summary to reflect that while keeping any details still needed to continue the work.
 - Update "Objective" and "Next Move" to reflect the current work state.`
+
 
 type Entry = {
   readonly seq: number
