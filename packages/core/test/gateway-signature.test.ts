@@ -50,4 +50,25 @@ describe("gateway signature validation", () => {
     const result = validateGitHubSignature(secret, bufferPayload, validHeader)
     expect(result.valid).toBe(true)
   })
+
+  it("accepts signatures with uppercase hex digits and surrounding whitespace", () => {
+    const validHeader = generateGitHubSignature(secret, payload)
+    const upperHeader = `  SHA256=${validHeader.slice(7).toUpperCase()}  `
+    const result = validateGitHubSignature(secret, payload, upperHeader)
+    expect(result.valid).toBe(true)
+  })
+
+  it("rejects 64-character signature headers that contain non-hex characters", () => {
+    const nonHexHeader = `sha256=${"z".repeat(64)}`
+    const result = validateGitHubSignature(secret, payload, nonHexHeader)
+    expect(result.valid).toBe(false)
+    expect(result.reason).toContain("Invalid signature length or format")
+  })
+
+  it("handles object payloads and unicode multibyte characters gracefully", () => {
+    const unicodePayload = { action: "opened", title: "Bug: 🚀 crashes on utf-8 日本語 text" }
+    const validHeader = generateGitHubSignature(secret, unicodePayload)
+    const result = validateGitHubSignature(secret, unicodePayload, validHeader)
+    expect(result.valid).toBe(true)
+  })
 })

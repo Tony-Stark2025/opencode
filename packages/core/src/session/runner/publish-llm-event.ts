@@ -402,9 +402,10 @@ export const createLLMEventPublisher = (events: EventV2.Interface, input: Input)
         const telemetry = yield* Effect.serviceOption(Telemetry.Service)
         if (telemetry._tag === "Some" && event.usage) {
           const cachedTokens = safe(event.usage.cacheReadInputTokens)
-          const uncachedTokens = safe(event.usage.nonCachedInputTokens)
-          const promptTokens = cachedTokens + uncachedTokens
-          const completionTokens = safe(event.usage.visibleOutputTokens)
+          const nonCachedTokens = safe(event.usage.nonCachedInputTokens)
+          const totalInput = safe(event.usage.inputTokens)
+          const promptTokens = totalInput > 0 ? totalInput : cachedTokens + nonCachedTokens
+          const completionTokens = safe(event.usage.visibleOutputTokens) || safe(event.usage.outputTokens)
           yield* telemetry.value.recordUsage({
             sessionID: input.sessionID,
             promptTokens,

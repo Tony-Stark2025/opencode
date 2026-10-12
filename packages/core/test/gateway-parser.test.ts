@@ -109,4 +109,36 @@ describe("gateway parser", () => {
     expect(result.shouldDispatch).toBe(true)
     expect(result.promptText).toContain("Pull Request #77: feat: add telemetry engine")
   })
+
+  it("handles null/undefined payload gracefully without throwing", () => {
+    const result1 = parseGitHubWebhookEvent("issues", "del_null", null)
+    expect(result1.shouldDispatch).toBe(false)
+    expect(result1.repository).toBe("unknown/repository")
+
+    const result2 = parseGitHubWebhookEvent("pull_request", "del_undef", undefined)
+    expect(result2.shouldDispatch).toBe(false)
+  })
+
+  it("parses pull_request_review_comment with /fix command and diff hunk", () => {
+    const result = parseGitHubWebhookEvent("pull_request_review_comment", "del_rev_1", {
+      action: "created",
+      pull_request: { number: 88, title: "Refactor core loop" },
+      comment: {
+        id: 555,
+        path: "src/loop.ts",
+        line: 42,
+        diff_hunk: "@@ -40,3 +40,5 @@\n- const x = 1\n+ const x = 2",
+        body: "/fix update loop termination condition here",
+        user: { login: "lead-dev" },
+      },
+      repository: { full_name: "acme/corp" },
+    })
+
+    expect(result.shouldDispatch).toBe(true)
+    expect(result.targetType).toBe("pull_request")
+    expect(result.targetNumber).toBe(88)
+    expect(result.promptText).toContain("Review Comment on `src/loop.ts` (line 42)")
+    expect(result.promptText).toContain("diff")
+    expect(result.promptText).toContain("/fix update loop termination condition here")
+  })
 })

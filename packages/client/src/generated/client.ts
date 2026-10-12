@@ -120,6 +120,7 @@ import type {
   ServerTelemetryTrajectoryInput,
   ServerTelemetryTrajectoryOutput,
   ServerTelemetryDashboardOutput,
+  ServerTelemetryDashboardHtmlOutput,
 } from "./types"
 import { ClientError } from "./client-error"
 
@@ -1074,6 +1075,17 @@ export function make(options: ClientOptions) {
           {
             method: "GET",
             path: `/api/telemetry/dashboard`,
+            successStatus: 200,
+            declaredStatuses: [401, 400],
+            empty: false,
+          },
+          requestOptions,
+        ),
+      dashboardHtml: (requestOptions?: RequestOptions) =>
+        request<ServerTelemetryDashboardHtmlOutput>(
+          {
+            method: "GET",
+            path: `/api/telemetry/dashboard/view`,
             successStatus: 200,
             declaredStatuses: [401, 400],
             empty: false,

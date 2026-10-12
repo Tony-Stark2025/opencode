@@ -96,25 +96,41 @@ const layer = Layer.effectDiscard(
         }
 
         const startTime = Date.now()
-        yield* SessionRevert.rollbackToCheckpoint({
+        const rollbackResult = yield* SessionRevert.rollbackToCheckpoint({
           session,
           boundaryMessageID: targetMessageID,
         }).pipe(
           Effect.provideService(Database.Service, db),
           Effect.provideService(EventV2.Service, events),
           Effect.provideService(Snapshot.Service, snapshot),
+          Effect.tapError(() =>
+            Effect.gen(function* () {
+              const tel = yield* Effect.serviceOption(Telemetry.Service)
+              if (tel._tag === "Some") {
+                yield* tel.value.recordRollback({
+                  sessionID: context.sessionID,
+                  reason: input.reason,
+                  boundaryMessageID: targetMessageID,
+                  filesRestored: 0,
+                  durationMs: Date.now() - startTime,
+                  success: false,
+                })
+              }
+            }),
+          ),
           Effect.mapError(
             (err) => new ToolFailure({ message: `Rollback failed: ${String(err)}` }),
           ),
         )
 
+        const filesRestored = rollbackResult?.files?.length ?? 0
         const telemetry = yield* Effect.serviceOption(Telemetry.Service)
         if (telemetry._tag === "Some") {
           yield* telemetry.value.recordRollback({
             sessionID: context.sessionID,
             reason: input.reason,
             boundaryMessageID: targetMessageID,
-            filesRestored: 1,
+            filesRestored,
             durationMs: Date.now() - startTime,
             success: true,
           })

@@ -11,5 +11,11 @@ export const TelemetryHandler = HttpApiBuilder.group(Api, "server.telemetry", (h
       .handle("telemetry.metrics", () => telemetry.getSnapshot())
       .handle("telemetry.trajectory", (ctx) => telemetry.getSessionTrajectory(ctx.params.sessionID))
       .handle("telemetry.dashboard", () => telemetry.getSnapshot())
+      .handle("telemetry.dashboardHtml", () =>
+        Effect.gen(function* () {
+          const snapshot = yield* telemetry.getSnapshot()
+          return telemetry.renderDashboardHtml(snapshot)
+        }),
+      )
   }),
 )

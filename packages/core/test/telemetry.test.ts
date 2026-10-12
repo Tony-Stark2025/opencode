@@ -134,4 +134,41 @@ describe("telemetry and live trajectory engine", () => {
     expect(html).toContain("Trajectory Rollbacks")
     expect(html).toContain("Fix auth controller")
   })
+
+  it("handles failed rollback recording, getSessionTrajectory queries, and session completion", async () => {
+    const program = Effect.gen(function* () {
+      const telemetry = yield* Telemetry.Service
+      const s1 = SessionID.create()
+
+      yield* telemetry.updateSessionStatus({
+        sessionID: s1,
+        status: "running",
+        title: "Test session",
+      })
+
+      yield* telemetry.recordRollback({
+        sessionID: s1,
+        reason: "Git conflict detected",
+        boundaryMessageID: "msg_checkpoint_xyz",
+        filesRestored: 0,
+        durationMs: 15,
+        success: false,
+      })
+
+      const trajectory = yield* telemetry.getSessionTrajectory(s1)
+      yield* telemetry.endSession(s1, false)
+      const afterEnd = yield* telemetry.getSessionTrajectory(s1)
+      const snapshot = yield* telemetry.getSnapshot()
+
+      return { trajectory, afterEnd, snapshot }
+    })
+
+    const { trajectory, afterEnd, snapshot } = await Effect.runPromise(program.pipe(Effect.provide(Telemetry.layer)))
+    expect(trajectory?.rollbackCount).toBe(1)
+    expect(trajectory?.status).toBe("error") // rollback failed sets error
+    expect(afterEnd?.status).toBe("completed")
+    expect(snapshot.rollbacks.failedRollbacks).toBe(1)
+    expect(snapshot.rollbacks.successfulRollbacks).toBe(0)
+    expect(snapshot.rollbacks.totalRollbacks).toBe(1)
+  })
 })

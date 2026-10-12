@@ -38,6 +38,17 @@ export const TelemetryGroup = HttpApiGroup.make("server.telemetry")
       }),
     ),
   )
+  .add(
+    HttpApiEndpoint.get("telemetry.dashboardHtml", "/api/telemetry/dashboard/view", {
+      success: Schema.String,
+    }).annotateMerge(
+      OpenApi.annotations({
+        identifier: "v2.telemetry.dashboardHtml",
+        summary: "View Live Trajectory HTML Dashboard",
+        description: "Retrieve full rendered HTML for the live trajectory and telemetry dashboard.",
+      }),
+    ),
+  )
   .annotateMerge(
     OpenApi.annotations({
       title: "telemetry",

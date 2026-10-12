@@ -8,6 +8,7 @@ import { SessionExecution } from "../session/execution"
 import { AbsolutePath } from "../schema"
 import { validateGitHubSignature } from "./signature"
 import { parseGitHubWebhookEvent, type ParsedGitHubEvent } from "./parser"
+import { Telemetry } from "../telemetry"
 import { makeGlobalNode } from "../effect/app-node"
 
 export interface WebhookInput {
@@ -155,7 +156,18 @@ export const makeLayer = (defaultDirectory: string = process.cwd()) =>
               ),
             )
 
+          const telemetry = yield* Effect.serviceOption(Telemetry.Service)
+
           if ("error" in promptResult) {
+            if (telemetry._tag === "Some") {
+              yield* telemetry.value.updateSessionStatus({
+                sessionID,
+                status: "error",
+                title: `${parsed.repository} #${parsed.targetNumber ?? 0}: ${parsed.title ?? parsed.action}`,
+                source: `github:${parsed.targetType}`,
+              })
+            }
+
             const failedRecord = new Gateway.DispatchRecord({
               jobId,
               sessionID,
@@ -178,6 +190,15 @@ export const makeLayer = (defaultDirectory: string = process.cwd()) =>
               sessionID,
               status: "failed",
               message: `Failed to admit prompt: ${promptResult.error}`,
+            })
+          }
+
+          if (telemetry._tag === "Some") {
+            yield* telemetry.value.updateSessionStatus({
+              sessionID,
+              status: "running",
+              title: `${parsed.repository} #${parsed.targetNumber ?? 0}: ${parsed.title ?? parsed.action}`,
+              source: `github:${parsed.targetType}`,
             })
           }
 
@@ -248,4 +269,4 @@ export const makeLayer = (defaultDirectory: string = process.cwd()) =>
   )
 
 export const layer = makeLayer()
-export const node = makeGlobalNode({ service: Service, layer, deps: [SessionV2.node, SessionExecution.node] })
+export const node = makeGlobalNode({ service: Service, layer, deps: [SessionV2.node, SessionExecution.node, Telemetry.node] })

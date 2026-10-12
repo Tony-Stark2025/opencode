@@ -2,6 +2,7 @@ import { describe, expect, it } from "bun:test"
 import { Effect, Layer } from "effect"
 import { SessionID } from "@opencode-ai/schema/session-id"
 import { Gateway } from "../src/gateway"
+import { Telemetry } from "../src/telemetry"
 import { SessionV2 } from "../src/session"
 import { SessionExecution } from "../src/session/execution"
 import { generateGitHubSignature } from "../src/gateway/signature"
@@ -63,9 +64,13 @@ describe("gateway dispatcher", () => {
     }),
   )
 
-  const testLayer = Gateway.makeLayer().pipe(
-    Layer.provide(mockSessionService),
-    Layer.provide(mockExecutionService),
+  const testLayer = Layer.merge(
+    Gateway.makeLayer().pipe(
+      Layer.provide(mockSessionService),
+      Layer.provide(mockExecutionService),
+      Layer.provide(Telemetry.layer),
+    ),
+    Telemetry.layer,
   )
 
   it("rejects webhook if signature validation fails", async () => {
@@ -183,5 +188,43 @@ describe("gateway dispatcher", () => {
     expect(res2.sessionID).toBeDefined()
     // Thread continuity: both comments target the exact same session!
     expect(res1.sessionID).toBe(res2.sessionID)
+  })
+
+  it("updates session trajectory status in Telemetry upon webhook dispatch", async () => {
+    const program = Effect.gen(function* () {
+      const gateway = yield* Gateway.Service
+      const telemetry = yield* Telemetry.Service
+
+      const payload = {
+        action: "opened",
+        repository: { full_name: "acme/corp" },
+        pull_request: {
+          number: 55,
+          title: "Optimize KV-cache eviction",
+          user: { login: "alice" },
+        },
+      }
+      const rawBody = JSON.stringify(payload)
+      const res = yield* gateway.handleWebhook({
+        eventType: "pull_request",
+        deliveryId: "del_pr_55",
+        signature: generateGitHubSignature(secret, rawBody),
+        payload,
+        rawBody,
+        secret,
+      })
+
+      const snapshot = yield* telemetry.getSnapshot()
+      return { res, snapshot }
+    })
+
+    const { res, snapshot } = await Effect.runPromise(program.pipe(Effect.provide(testLayer)))
+    expect(res.accepted).toBe(true)
+    expect(snapshot.activeSessions.length).toBeGreaterThan(0)
+    const tracked = snapshot.activeSessions.find((s) => s.sessionID === res.sessionID)
+    expect(tracked).toBeDefined()
+    expect(tracked?.status).toBe("running")
+    expect(tracked?.source).toBe("github:pull_request")
+    expect(tracked?.title).toContain("acme/corp #55")
   })
 })

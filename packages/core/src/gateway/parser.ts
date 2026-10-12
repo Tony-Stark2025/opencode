@@ -39,12 +39,12 @@ export function parseGitHubWebhookEvent(
   }
 
   if (eventType === "issues") {
-    const issue = payload.issue
-    const action = payload.action ?? "opened"
+    const issue = payload?.issue
+    const action = payload?.action ?? "opened"
     const issueNumber = issue?.number
 
     // We dispatch on issues opened, or labeled with bug/task/opencode
-    const isDispatchAction = action === "opened" || action === "reopened"
+    const isDispatchAction = Boolean(issue) && (action === "opened" || action === "reopened")
     const promptText = [
       `### GitHub Issue #${issueNumber}: ${issue?.title ?? "Untitled"}`,
       `**Repository:** ${repository}`,
@@ -75,9 +75,9 @@ export function parseGitHubWebhookEvent(
   }
 
   if (eventType === "issue_comment") {
-    const issue = payload.issue
-    const comment = payload.comment
-    const action = payload.action ?? "created"
+    const issue = payload?.issue
+    const comment = payload?.comment
+    const action = payload?.action ?? "created"
     const targetNumber = issue?.number
     const isPR = Boolean(issue?.pull_request)
     const targetType: Gateway.TargetType = isPR ? "pull_request" : "issue"
@@ -125,13 +125,13 @@ export function parseGitHubWebhookEvent(
   }
 
   if (eventType === "pull_request") {
-    const pr = payload.pull_request
-    const action = payload.action ?? "opened"
-    const prNumber = pr?.number ?? payload.number
+    const pr = payload?.pull_request
+    const action = payload?.action ?? "opened"
+    const prNumber = pr?.number ?? payload?.number
     const branch = pr?.head?.ref
     const baseBranch = pr?.base?.ref
 
-    const isDispatchAction = action === "opened" || action === "synchronize" || action === "ready_for_review"
+    const isDispatchAction = Boolean(pr) && (action === "opened" || action === "synchronize" || action === "ready_for_review")
 
     const promptText = [
       `### GitHub Pull Request #${prNumber}: ${pr?.title ?? "Untitled"}`,
@@ -166,9 +166,9 @@ export function parseGitHubWebhookEvent(
   }
 
   if (eventType === "pull_request_review_comment") {
-    const pr = payload.pull_request
-    const comment = payload.comment
-    const action = payload.action ?? "created"
+    const pr = payload?.pull_request
+    const comment = payload?.comment
+    const action = payload?.action ?? "created"
     const prNumber = pr?.number
     const path = comment?.path
     const line = comment?.line ?? comment?.original_line

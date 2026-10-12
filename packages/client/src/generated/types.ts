@@ -4127,3 +4127,5 @@ export type ServerTelemetryDashboardOutput = {
   }>
   readonly totalSessionsTracked: number
 }
+
+export type ServerTelemetryDashboardHtmlOutput = string

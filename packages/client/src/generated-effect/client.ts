@@ -739,10 +739,14 @@ const Endpoint19_1 = (raw: RawClient["server.telemetry"]) => (input: Endpoint19_
 const Endpoint19_2 = (raw: RawClient["server.telemetry"]) => () =>
   raw["telemetry.dashboard"]({}).pipe(Effect.mapError(mapClientError))
 
+const Endpoint19_3 = (raw: RawClient["server.telemetry"]) => () =>
+  raw["telemetry.dashboardHtml"]({}).pipe(Effect.mapError(mapClientError))
+
 const adaptGroup19 = (raw: RawClient["server.telemetry"]) => ({
   metrics: Endpoint19_0(raw),
   trajectory: Endpoint19_1(raw),
   dashboard: Endpoint19_2(raw),
+  dashboardHtml: Endpoint19_3(raw),
 })
 
 const adaptClient = (raw: RawClient) => ({
