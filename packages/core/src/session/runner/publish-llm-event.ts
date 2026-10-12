@@ -5,6 +5,7 @@ import { ModelV2 } from "../../model"
 import { SessionEvent } from "../event"
 import { SessionMessage } from "../message"
 import { SessionSchema } from "../schema"
+import { Telemetry } from "../../telemetry"
 
 type Input = {
   readonly sessionID: SessionSchema.ID
@@ -393,12 +394,26 @@ export const createLLMEventPublisher = (events: EventV2.Interface, input: Input)
         })
         return
       }
-      case "step-finish":
+      case "step-finish": {
         yield* flush()
         assistantActive = false
         if (stepSettlement) return yield* Effect.die("Duplicate step finish")
         stepSettlement = { finish: event.reason, tokens: tokens(event.usage) }
+        const telemetry = yield* Effect.serviceOption(Telemetry.Service)
+        if (telemetry._tag === "Some" && event.usage) {
+          const cachedTokens = safe(event.usage.cacheReadInputTokens)
+          const uncachedTokens = safe(event.usage.nonCachedInputTokens)
+          const promptTokens = cachedTokens + uncachedTokens
+          const completionTokens = safe(event.usage.visibleOutputTokens)
+          yield* telemetry.value.recordUsage({
+            sessionID: input.sessionID,
+            promptTokens,
+            completionTokens,
+            cachedTokens,
+          })
+        }
         return
+      }
       case "finish":
         return
       case "provider-error":

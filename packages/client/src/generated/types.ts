@@ -2805,3 +2805,1325 @@ export type ProjectCopiesRefreshInput = {
 }
 
 export type ProjectCopiesRefreshOutput = void
+
+export type ServerGatewayWebhookInput = {
+  readonly "x-hub-signature-256"?: {
+    readonly "x-hub-signature-256"?: string | undefined
+    readonly "x-github-event": string
+    readonly "x-github-delivery": string
+  }["x-hub-signature-256"]
+  readonly "x-github-event": {
+    readonly "x-hub-signature-256"?: string | undefined
+    readonly "x-github-event": string
+    readonly "x-github-delivery": string
+  }["x-github-event"]
+  readonly "x-github-delivery": {
+    readonly "x-hub-signature-256"?: string | undefined
+    readonly "x-github-event": string
+    readonly "x-github-delivery": string
+  }["x-github-delivery"]
+  readonly action?: {
+    readonly action?: string | undefined
+    readonly repository?:
+      | {
+          readonly id: number
+          readonly name: string
+          readonly full_name: string
+          readonly html_url?: string | undefined
+          readonly default_branch?: string | undefined
+          readonly private?: boolean | undefined
+          readonly owner?:
+            | {
+                readonly login: string
+                readonly id: number
+                readonly avatar_url?: string | undefined
+                readonly type?: string | undefined
+              }
+            | undefined
+        }
+      | undefined
+    readonly sender?:
+      | {
+          readonly login: string
+          readonly id: number
+          readonly avatar_url?: string | undefined
+          readonly type?: string | undefined
+        }
+      | undefined
+    readonly issue?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly labels?: ReadonlyArray<{ readonly name: string }> | undefined
+        }
+      | undefined
+    readonly pull_request?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly diff_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly head: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly base: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly draft?: boolean | undefined
+          readonly merged?: boolean | undefined
+        }
+      | undefined
+    readonly comment?:
+      | {
+          readonly id: number
+          readonly body: string
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly html_url?: string | undefined
+          readonly diff_hunk?: string | undefined
+          readonly path?: string | undefined
+          readonly position?: number | null | undefined
+        }
+      | undefined
+    readonly number?: number | undefined
+    readonly zen?: string | undefined
+    readonly hook_id?: number | undefined
+  }["action"]
+  readonly repository?: {
+    readonly action?: string | undefined
+    readonly repository?:
+      | {
+          readonly id: number
+          readonly name: string
+          readonly full_name: string
+          readonly html_url?: string | undefined
+          readonly default_branch?: string | undefined
+          readonly private?: boolean | undefined
+          readonly owner?:
+            | {
+                readonly login: string
+                readonly id: number
+                readonly avatar_url?: string | undefined
+                readonly type?: string | undefined
+              }
+            | undefined
+        }
+      | undefined
+    readonly sender?:
+      | {
+          readonly login: string
+          readonly id: number
+          readonly avatar_url?: string | undefined
+          readonly type?: string | undefined
+        }
+      | undefined
+    readonly issue?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly labels?: ReadonlyArray<{ readonly name: string }> | undefined
+        }
+      | undefined
+    readonly pull_request?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly diff_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly head: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly base: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly draft?: boolean | undefined
+          readonly merged?: boolean | undefined
+        }
+      | undefined
+    readonly comment?:
+      | {
+          readonly id: number
+          readonly body: string
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly html_url?: string | undefined
+          readonly diff_hunk?: string | undefined
+          readonly path?: string | undefined
+          readonly position?: number | null | undefined
+        }
+      | undefined
+    readonly number?: number | undefined
+    readonly zen?: string | undefined
+    readonly hook_id?: number | undefined
+  }["repository"]
+  readonly sender?: {
+    readonly action?: string | undefined
+    readonly repository?:
+      | {
+          readonly id: number
+          readonly name: string
+          readonly full_name: string
+          readonly html_url?: string | undefined
+          readonly default_branch?: string | undefined
+          readonly private?: boolean | undefined
+          readonly owner?:
+            | {
+                readonly login: string
+                readonly id: number
+                readonly avatar_url?: string | undefined
+                readonly type?: string | undefined
+              }
+            | undefined
+        }
+      | undefined
+    readonly sender?:
+      | {
+          readonly login: string
+          readonly id: number
+          readonly avatar_url?: string | undefined
+          readonly type?: string | undefined
+        }
+      | undefined
+    readonly issue?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly labels?: ReadonlyArray<{ readonly name: string }> | undefined
+        }
+      | undefined
+    readonly pull_request?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly diff_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly head: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly base: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly draft?: boolean | undefined
+          readonly merged?: boolean | undefined
+        }
+      | undefined
+    readonly comment?:
+      | {
+          readonly id: number
+          readonly body: string
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly html_url?: string | undefined
+          readonly diff_hunk?: string | undefined
+          readonly path?: string | undefined
+          readonly position?: number | null | undefined
+        }
+      | undefined
+    readonly number?: number | undefined
+    readonly zen?: string | undefined
+    readonly hook_id?: number | undefined
+  }["sender"]
+  readonly issue?: {
+    readonly action?: string | undefined
+    readonly repository?:
+      | {
+          readonly id: number
+          readonly name: string
+          readonly full_name: string
+          readonly html_url?: string | undefined
+          readonly default_branch?: string | undefined
+          readonly private?: boolean | undefined
+          readonly owner?:
+            | {
+                readonly login: string
+                readonly id: number
+                readonly avatar_url?: string | undefined
+                readonly type?: string | undefined
+              }
+            | undefined
+        }
+      | undefined
+    readonly sender?:
+      | {
+          readonly login: string
+          readonly id: number
+          readonly avatar_url?: string | undefined
+          readonly type?: string | undefined
+        }
+      | undefined
+    readonly issue?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly labels?: ReadonlyArray<{ readonly name: string }> | undefined
+        }
+      | undefined
+    readonly pull_request?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly diff_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly head: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly base: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly draft?: boolean | undefined
+          readonly merged?: boolean | undefined
+        }
+      | undefined
+    readonly comment?:
+      | {
+          readonly id: number
+          readonly body: string
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly html_url?: string | undefined
+          readonly diff_hunk?: string | undefined
+          readonly path?: string | undefined
+          readonly position?: number | null | undefined
+        }
+      | undefined
+    readonly number?: number | undefined
+    readonly zen?: string | undefined
+    readonly hook_id?: number | undefined
+  }["issue"]
+  readonly pull_request?: {
+    readonly action?: string | undefined
+    readonly repository?:
+      | {
+          readonly id: number
+          readonly name: string
+          readonly full_name: string
+          readonly html_url?: string | undefined
+          readonly default_branch?: string | undefined
+          readonly private?: boolean | undefined
+          readonly owner?:
+            | {
+                readonly login: string
+                readonly id: number
+                readonly avatar_url?: string | undefined
+                readonly type?: string | undefined
+              }
+            | undefined
+        }
+      | undefined
+    readonly sender?:
+      | {
+          readonly login: string
+          readonly id: number
+          readonly avatar_url?: string | undefined
+          readonly type?: string | undefined
+        }
+      | undefined
+    readonly issue?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly labels?: ReadonlyArray<{ readonly name: string }> | undefined
+        }
+      | undefined
+    readonly pull_request?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly diff_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly head: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly base: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly draft?: boolean | undefined
+          readonly merged?: boolean | undefined
+        }
+      | undefined
+    readonly comment?:
+      | {
+          readonly id: number
+          readonly body: string
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly html_url?: string | undefined
+          readonly diff_hunk?: string | undefined
+          readonly path?: string | undefined
+          readonly position?: number | null | undefined
+        }
+      | undefined
+    readonly number?: number | undefined
+    readonly zen?: string | undefined
+    readonly hook_id?: number | undefined
+  }["pull_request"]
+  readonly comment?: {
+    readonly action?: string | undefined
+    readonly repository?:
+      | {
+          readonly id: number
+          readonly name: string
+          readonly full_name: string
+          readonly html_url?: string | undefined
+          readonly default_branch?: string | undefined
+          readonly private?: boolean | undefined
+          readonly owner?:
+            | {
+                readonly login: string
+                readonly id: number
+                readonly avatar_url?: string | undefined
+                readonly type?: string | undefined
+              }
+            | undefined
+        }
+      | undefined
+    readonly sender?:
+      | {
+          readonly login: string
+          readonly id: number
+          readonly avatar_url?: string | undefined
+          readonly type?: string | undefined
+        }
+      | undefined
+    readonly issue?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly labels?: ReadonlyArray<{ readonly name: string }> | undefined
+        }
+      | undefined
+    readonly pull_request?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly diff_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly head: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly base: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly draft?: boolean | undefined
+          readonly merged?: boolean | undefined
+        }
+      | undefined
+    readonly comment?:
+      | {
+          readonly id: number
+          readonly body: string
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly html_url?: string | undefined
+          readonly diff_hunk?: string | undefined
+          readonly path?: string | undefined
+          readonly position?: number | null | undefined
+        }
+      | undefined
+    readonly number?: number | undefined
+    readonly zen?: string | undefined
+    readonly hook_id?: number | undefined
+  }["comment"]
+  readonly number?: {
+    readonly action?: string | undefined
+    readonly repository?:
+      | {
+          readonly id: number
+          readonly name: string
+          readonly full_name: string
+          readonly html_url?: string | undefined
+          readonly default_branch?: string | undefined
+          readonly private?: boolean | undefined
+          readonly owner?:
+            | {
+                readonly login: string
+                readonly id: number
+                readonly avatar_url?: string | undefined
+                readonly type?: string | undefined
+              }
+            | undefined
+        }
+      | undefined
+    readonly sender?:
+      | {
+          readonly login: string
+          readonly id: number
+          readonly avatar_url?: string | undefined
+          readonly type?: string | undefined
+        }
+      | undefined
+    readonly issue?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly labels?: ReadonlyArray<{ readonly name: string }> | undefined
+        }
+      | undefined
+    readonly pull_request?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly diff_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly head: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly base: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly draft?: boolean | undefined
+          readonly merged?: boolean | undefined
+        }
+      | undefined
+    readonly comment?:
+      | {
+          readonly id: number
+          readonly body: string
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly html_url?: string | undefined
+          readonly diff_hunk?: string | undefined
+          readonly path?: string | undefined
+          readonly position?: number | null | undefined
+        }
+      | undefined
+    readonly number?: number | undefined
+    readonly zen?: string | undefined
+    readonly hook_id?: number | undefined
+  }["number"]
+  readonly zen?: {
+    readonly action?: string | undefined
+    readonly repository?:
+      | {
+          readonly id: number
+          readonly name: string
+          readonly full_name: string
+          readonly html_url?: string | undefined
+          readonly default_branch?: string | undefined
+          readonly private?: boolean | undefined
+          readonly owner?:
+            | {
+                readonly login: string
+                readonly id: number
+                readonly avatar_url?: string | undefined
+                readonly type?: string | undefined
+              }
+            | undefined
+        }
+      | undefined
+    readonly sender?:
+      | {
+          readonly login: string
+          readonly id: number
+          readonly avatar_url?: string | undefined
+          readonly type?: string | undefined
+        }
+      | undefined
+    readonly issue?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly labels?: ReadonlyArray<{ readonly name: string }> | undefined
+        }
+      | undefined
+    readonly pull_request?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly diff_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly head: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly base: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly draft?: boolean | undefined
+          readonly merged?: boolean | undefined
+        }
+      | undefined
+    readonly comment?:
+      | {
+          readonly id: number
+          readonly body: string
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly html_url?: string | undefined
+          readonly diff_hunk?: string | undefined
+          readonly path?: string | undefined
+          readonly position?: number | null | undefined
+        }
+      | undefined
+    readonly number?: number | undefined
+    readonly zen?: string | undefined
+    readonly hook_id?: number | undefined
+  }["zen"]
+  readonly hook_id?: {
+    readonly action?: string | undefined
+    readonly repository?:
+      | {
+          readonly id: number
+          readonly name: string
+          readonly full_name: string
+          readonly html_url?: string | undefined
+          readonly default_branch?: string | undefined
+          readonly private?: boolean | undefined
+          readonly owner?:
+            | {
+                readonly login: string
+                readonly id: number
+                readonly avatar_url?: string | undefined
+                readonly type?: string | undefined
+              }
+            | undefined
+        }
+      | undefined
+    readonly sender?:
+      | {
+          readonly login: string
+          readonly id: number
+          readonly avatar_url?: string | undefined
+          readonly type?: string | undefined
+        }
+      | undefined
+    readonly issue?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly labels?: ReadonlyArray<{ readonly name: string }> | undefined
+        }
+      | undefined
+    readonly pull_request?:
+      | {
+          readonly id: number
+          readonly number: number
+          readonly title: string
+          readonly body: string | null
+          readonly state: string
+          readonly html_url?: string | undefined
+          readonly diff_url?: string | undefined
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly head: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly base: {
+            readonly ref: string
+            readonly sha: string
+            readonly repo?:
+              | {
+                  readonly id: number
+                  readonly name: string
+                  readonly full_name: string
+                  readonly html_url?: string | undefined
+                  readonly default_branch?: string | undefined
+                  readonly private?: boolean | undefined
+                  readonly owner?:
+                    | {
+                        readonly login: string
+                        readonly id: number
+                        readonly avatar_url?: string | undefined
+                        readonly type?: string | undefined
+                      }
+                    | undefined
+                }
+              | undefined
+          }
+          readonly draft?: boolean | undefined
+          readonly merged?: boolean | undefined
+        }
+      | undefined
+    readonly comment?:
+      | {
+          readonly id: number
+          readonly body: string
+          readonly user: {
+            readonly login: string
+            readonly id: number
+            readonly avatar_url?: string | undefined
+            readonly type?: string | undefined
+          }
+          readonly html_url?: string | undefined
+          readonly diff_hunk?: string | undefined
+          readonly path?: string | undefined
+          readonly position?: number | null | undefined
+        }
+      | undefined
+    readonly number?: number | undefined
+    readonly zen?: string | undefined
+    readonly hook_id?: number | undefined
+  }["hook_id"]
+}
+
+export type ServerGatewayWebhookOutput = {
+  readonly accepted: boolean
+  readonly jobId?: string | undefined
+  readonly sessionID?: string | undefined
+  readonly status: "received" | "dispatched" | "running" | "completed" | "failed" | "ignored"
+  readonly message: string
+}
+
+export type ServerGatewayStatusOutput = {
+  readonly enabled: boolean
+  readonly webhooksReceived: number
+  readonly dispatchesActive: number
+  readonly totalDispatches: number
+  readonly lastDeliveryId?: string | undefined
+  readonly lastEventTime?: number | undefined
+}
+
+export type ServerGatewayDispatchesOutput = ReadonlyArray<{
+  readonly jobId: string
+  readonly sessionID?: string | undefined
+  readonly status: "received" | "dispatched" | "running" | "completed" | "failed" | "ignored"
+  readonly repository: string
+  readonly targetType: "pull_request" | "issue" | "ping"
+  readonly targetNumber?: number | undefined
+  readonly action: string
+  readonly sender: string
+  readonly deliveryId: string
+  readonly createdAt: number
+  readonly summary: string
+  readonly error?: string | undefined
+}>
+
+export type ServerTelemetryMetricsOutput = {
+  readonly timestamp: number
+  readonly tokens: {
+    readonly cacheSavingsTokens: number
+    readonly compactionSavingsTokens: number
+    readonly totalTokensSaved: number
+    readonly totalPromptTokens: number
+    readonly totalCompletionTokens: number
+    readonly estimatedCostSavingsUSD: number
+  }
+  readonly cache: {
+    readonly cacheHitCount: number
+    readonly cacheMissCount: number
+    readonly cacheHitRatio: number
+    readonly tokenCacheHitRatio: number
+    readonly totalCachedPromptTokens: number
+    readonly totalUncachedPromptTokens: number
+  }
+  readonly rollbacks: {
+    readonly totalRollbacks: number
+    readonly successfulRollbacks: number
+    readonly failedRollbacks: number
+    readonly recentRollbacks: ReadonlyArray<{
+      readonly sessionID: string
+      readonly timestamp: number
+      readonly reason: string
+      readonly boundaryMessageID: string
+      readonly filesRestored: number
+      readonly durationMs: number
+      readonly success: boolean
+    }>
+  }
+  readonly activeSessions: ReadonlyArray<{
+    readonly sessionID: string
+    readonly status: "idle" | "running" | "compacting" | "rolling_back" | "completed" | "error"
+    readonly startTime: number
+    readonly lastActivityTime: number
+    readonly durationSeconds: number
+    readonly turnCount: number
+    readonly promptTokens: number
+    readonly completionTokens: number
+    readonly cachedTokens: number
+    readonly savedTokens: number
+    readonly rollbackCount: number
+    readonly title?: string | undefined
+    readonly source?: string | undefined
+  }>
+  readonly totalSessionsTracked: number
+}
+
+export type ServerTelemetryTrajectoryInput = { readonly sessionID: { readonly sessionID: string }["sessionID"] }
+
+export type ServerTelemetryTrajectoryOutput =
+  | {
+      readonly sessionID: string
+      readonly status: "idle" | "running" | "compacting" | "rolling_back" | "completed" | "error"
+      readonly startTime: number
+      readonly lastActivityTime: number
+      readonly durationSeconds: number
+      readonly turnCount: number
+      readonly promptTokens: number
+      readonly completionTokens: number
+      readonly cachedTokens: number
+      readonly savedTokens: number
+      readonly rollbackCount: number
+      readonly title?: string | undefined
+      readonly source?: string | undefined
+    }
+  | undefined
+
+export type ServerTelemetryDashboardOutput = {
+  readonly timestamp: number
+  readonly tokens: {
+    readonly cacheSavingsTokens: number
+    readonly compactionSavingsTokens: number
+    readonly totalTokensSaved: number
+    readonly totalPromptTokens: number
+    readonly totalCompletionTokens: number
+    readonly estimatedCostSavingsUSD: number
+  }
+  readonly cache: {
+    readonly cacheHitCount: number
+    readonly cacheMissCount: number
+    readonly cacheHitRatio: number
+    readonly tokenCacheHitRatio: number
+    readonly totalCachedPromptTokens: number
+    readonly totalUncachedPromptTokens: number
+  }
+  readonly rollbacks: {
+    readonly totalRollbacks: number
+    readonly successfulRollbacks: number
+    readonly failedRollbacks: number
+    readonly recentRollbacks: ReadonlyArray<{
+      readonly sessionID: string
+      readonly timestamp: number
+      readonly reason: string
+      readonly boundaryMessageID: string
+      readonly filesRestored: number
+      readonly durationMs: number
+      readonly success: boolean
+    }>
+  }
+  readonly activeSessions: ReadonlyArray<{
+    readonly sessionID: string
+    readonly status: "idle" | "running" | "compacting" | "rolling_back" | "completed" | "error"
+    readonly startTime: number
+    readonly lastActivityTime: number
+    readonly durationSeconds: number
+    readonly turnCount: number
+    readonly promptTokens: number
+    readonly completionTokens: number
+    readonly cachedTokens: number
+    readonly savedTokens: number
+    readonly rollbackCount: number
+    readonly title?: string | undefined
+    readonly source?: string | undefined
+  }>
+  readonly totalSessionsTracked: number
+}

@@ -681,6 +681,70 @@ const adaptGroup17 = (raw: RawClient["server.projectCopy"]) => ({
   refresh: Endpoint17_2(raw),
 })
 
+type Endpoint18_0Request = Parameters<RawClient["server.gateway"]["gateway.webhook"]>[0]
+type Endpoint18_0Input = {
+  readonly "x-hub-signature-256"?: Endpoint18_0Request["headers"]["x-hub-signature-256"]
+  readonly "x-github-event": Endpoint18_0Request["headers"]["x-github-event"]
+  readonly "x-github-delivery": Endpoint18_0Request["headers"]["x-github-delivery"]
+  readonly action?: Endpoint18_0Request["payload"]["action"]
+  readonly repository?: Endpoint18_0Request["payload"]["repository"]
+  readonly sender?: Endpoint18_0Request["payload"]["sender"]
+  readonly issue?: Endpoint18_0Request["payload"]["issue"]
+  readonly pull_request?: Endpoint18_0Request["payload"]["pull_request"]
+  readonly comment?: Endpoint18_0Request["payload"]["comment"]
+  readonly number?: Endpoint18_0Request["payload"]["number"]
+  readonly zen?: Endpoint18_0Request["payload"]["zen"]
+  readonly hook_id?: Endpoint18_0Request["payload"]["hook_id"]
+}
+const Endpoint18_0 = (raw: RawClient["server.gateway"]) => (input: Endpoint18_0Input) =>
+  raw["gateway.webhook"]({
+    headers: {
+      "x-hub-signature-256": input["x-hub-signature-256"],
+      "x-github-event": input["x-github-event"],
+      "x-github-delivery": input["x-github-delivery"],
+    },
+    payload: {
+      action: input["action"],
+      repository: input["repository"],
+      sender: input["sender"],
+      issue: input["issue"],
+      pull_request: input["pull_request"],
+      comment: input["comment"],
+      number: input["number"],
+      zen: input["zen"],
+      hook_id: input["hook_id"],
+    },
+  }).pipe(Effect.mapError(mapClientError))
+
+const Endpoint18_1 = (raw: RawClient["server.gateway"]) => () =>
+  raw["gateway.status"]({}).pipe(Effect.mapError(mapClientError))
+
+const Endpoint18_2 = (raw: RawClient["server.gateway"]) => () =>
+  raw["gateway.dispatches"]({}).pipe(Effect.mapError(mapClientError))
+
+const adaptGroup18 = (raw: RawClient["server.gateway"]) => ({
+  webhook: Endpoint18_0(raw),
+  status: Endpoint18_1(raw),
+  dispatches: Endpoint18_2(raw),
+})
+
+const Endpoint19_0 = (raw: RawClient["server.telemetry"]) => () =>
+  raw["telemetry.metrics"]({}).pipe(Effect.mapError(mapClientError))
+
+type Endpoint19_1Request = Parameters<RawClient["server.telemetry"]["telemetry.trajectory"]>[0]
+type Endpoint19_1Input = { readonly sessionID: Endpoint19_1Request["params"]["sessionID"] }
+const Endpoint19_1 = (raw: RawClient["server.telemetry"]) => (input: Endpoint19_1Input) =>
+  raw["telemetry.trajectory"]({ params: { sessionID: input["sessionID"] } }).pipe(Effect.mapError(mapClientError))
+
+const Endpoint19_2 = (raw: RawClient["server.telemetry"]) => () =>
+  raw["telemetry.dashboard"]({}).pipe(Effect.mapError(mapClientError))
+
+const adaptGroup19 = (raw: RawClient["server.telemetry"]) => ({
+  metrics: Endpoint19_0(raw),
+  trajectory: Endpoint19_1(raw),
+  dashboard: Endpoint19_2(raw),
+})
+
 const adaptClient = (raw: RawClient) => ({
   health: adaptGroup0(raw["server.health"]),
   location: adaptGroup1(raw["server.location"]),
@@ -700,6 +764,8 @@ const adaptClient = (raw: RawClient) => ({
   questions: adaptGroup15(raw["server.question"]),
   references: adaptGroup16(raw["server.reference"]),
   projectCopies: adaptGroup17(raw["server.projectCopy"]),
+  "server.gateway": adaptGroup18(raw["server.gateway"]),
+  "server.telemetry": adaptGroup19(raw["server.telemetry"]),
 })
 
 export const make = (options?: { readonly baseUrl?: URL | string }) =>

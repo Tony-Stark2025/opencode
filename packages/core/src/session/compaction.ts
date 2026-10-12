@@ -8,6 +8,7 @@ import { SessionEvent } from "./event"
 import { SessionMessage } from "./message"
 import { SessionSchema } from "./schema"
 import { Token } from "../util/token"
+import { Telemetry } from "../telemetry"
 
 const DEFAULT_BUFFER = 20_000
 const DEFAULT_KEEP_TOKENS = 8_000
@@ -233,6 +234,18 @@ export const make = (dependencies: Dependencies) => {
       text: summary,
       recent: selected.recent,
     })
+
+    const telemetry = yield* Effect.serviceOption(Telemetry.Service)
+    if (telemetry._tag === "Some") {
+      const tokensBefore = Token.estimate(selected.head)
+      const tokensAfter = Token.estimate(summary)
+      yield* telemetry.value.recordCompaction({
+        sessionID: input.sessionID,
+        tokensBefore,
+        tokensAfter,
+      })
+    }
+
     return true
   })
   const compactIfNeeded = Effect.fn("SessionCompaction.compactIfNeeded")(function* (input: Input) {

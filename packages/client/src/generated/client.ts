@@ -112,6 +112,14 @@ import type {
   ProjectCopiesRemoveOutput,
   ProjectCopiesRefreshInput,
   ProjectCopiesRefreshOutput,
+  ServerGatewayWebhookInput,
+  ServerGatewayWebhookOutput,
+  ServerGatewayStatusOutput,
+  ServerGatewayDispatchesOutput,
+  ServerTelemetryMetricsOutput,
+  ServerTelemetryTrajectoryInput,
+  ServerTelemetryTrajectoryOutput,
+  ServerTelemetryDashboardOutput,
 } from "./types"
 import { ClientError } from "./client-error"
 
@@ -983,6 +991,92 @@ export function make(options: ClientOptions) {
             successStatus: 204,
             declaredStatuses: [400, 401],
             empty: true,
+          },
+          requestOptions,
+        ),
+    },
+    "server.gateway": {
+      webhook: (input: ServerGatewayWebhookInput, requestOptions?: RequestOptions) =>
+        request<ServerGatewayWebhookOutput>(
+          {
+            method: "POST",
+            path: `/api/gateway/github/webhook`,
+            headers: {
+              "x-hub-signature-256": input["x-hub-signature-256"],
+              "x-github-event": input["x-github-event"],
+              "x-github-delivery": input["x-github-delivery"],
+            },
+            body: {
+              action: input["action"],
+              repository: input["repository"],
+              sender: input["sender"],
+              issue: input["issue"],
+              pull_request: input["pull_request"],
+              comment: input["comment"],
+              number: input["number"],
+              zen: input["zen"],
+              hook_id: input["hook_id"],
+            },
+            successStatus: 200,
+            declaredStatuses: [401, 400],
+            empty: false,
+          },
+          requestOptions,
+        ),
+      status: (requestOptions?: RequestOptions) =>
+        request<ServerGatewayStatusOutput>(
+          {
+            method: "GET",
+            path: `/api/gateway/status`,
+            successStatus: 200,
+            declaredStatuses: [401, 400],
+            empty: false,
+          },
+          requestOptions,
+        ),
+      dispatches: (requestOptions?: RequestOptions) =>
+        request<ServerGatewayDispatchesOutput>(
+          {
+            method: "GET",
+            path: `/api/gateway/dispatches`,
+            successStatus: 200,
+            declaredStatuses: [401, 400],
+            empty: false,
+          },
+          requestOptions,
+        ),
+    },
+    "server.telemetry": {
+      metrics: (requestOptions?: RequestOptions) =>
+        request<ServerTelemetryMetricsOutput>(
+          {
+            method: "GET",
+            path: `/api/telemetry/metrics`,
+            successStatus: 200,
+            declaredStatuses: [401, 400],
+            empty: false,
+          },
+          requestOptions,
+        ),
+      trajectory: (input: ServerTelemetryTrajectoryInput, requestOptions?: RequestOptions) =>
+        request<ServerTelemetryTrajectoryOutput>(
+          {
+            method: "GET",
+            path: `/api/telemetry/trajectory/${encodeURIComponent(input.sessionID)}`,
+            successStatus: 200,
+            declaredStatuses: [401, 400],
+            empty: false,
+          },
+          requestOptions,
+        ),
+      dashboard: (requestOptions?: RequestOptions) =>
+        request<ServerTelemetryDashboardOutput>(
+          {
+            method: "GET",
+            path: `/api/telemetry/dashboard`,
+            successStatus: 200,
+            declaredStatuses: [401, 400],
+            empty: false,
           },
           requestOptions,
         ),

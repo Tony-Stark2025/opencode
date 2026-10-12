@@ -13,6 +13,7 @@ import { Snapshot } from "../snapshot"
 import { ToolRegistry } from "./registry"
 import { Tool } from "./tool"
 import { Tools } from "./tools"
+import { Telemetry } from "../telemetry"
 
 export const name = "rollback"
 
@@ -94,6 +95,7 @@ const layer = Layer.effectDiscard(
           })
         }
 
+        const startTime = Date.now()
         yield* SessionRevert.rollbackToCheckpoint({
           session,
           boundaryMessageID: targetMessageID,
@@ -105,6 +107,18 @@ const layer = Layer.effectDiscard(
             (err) => new ToolFailure({ message: `Rollback failed: ${String(err)}` }),
           ),
         )
+
+        const telemetry = yield* Effect.serviceOption(Telemetry.Service)
+        if (telemetry._tag === "Some") {
+          yield* telemetry.value.recordRollback({
+            sessionID: context.sessionID,
+            reason: input.reason,
+            boundaryMessageID: targetMessageID,
+            filesRestored: 1,
+            durationMs: Date.now() - startTime,
+            success: true,
+          })
+        }
 
         return {
           status: "success",
